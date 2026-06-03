@@ -1,20 +1,20 @@
-const CACHE = 'sudoku-v4';
+const CACHE = 'sudoku-v1';
+const ASSETS = ['/', '/index.html', '/assets/index-BRCm7i-E.css', '/assets/index-ZsDDsiFD.js'];
+
 self.addEventListener('install', e => {
-  // Force activation — kill all old caches immediately
-  e.waitUntil(
-    caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k))))
-  );
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
   self.skipWaiting();
 });
+
 self.addEventListener('activate', e => {
-  e.waitUntil(
-    caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k))))
-  );
+  e.waitUntil(caches.keys().then(keys => {
+    return Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)));
+  }));
   self.clients.claim();
 });
+
 self.addEventListener('fetch', e => {
-  // Network-first strategy — no stale cache interference
   e.respondWith(
-    fetch(e.request).catch(() => caches.match(e.request))
+    caches.match(e.request).then(r => r || fetch(e.request))
   );
 });
