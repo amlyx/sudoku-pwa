@@ -1,0 +1,18 @@
+{
+  "name": "信为美数独",
+  "short_name": "数独",
+  "description": "禅意数独 · 打开即玩 · 每题唯一解",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#00236f",
+  "icons": [
+    {
+      "src": "/assets/xinweimei-sudoku-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
